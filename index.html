@@ -1,785 +1,690 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BOCADO — Tu desayuno directo en tu aula | ESAN</title>
-  <meta name="description" content="BOCADO te lleva una cajita con sánguche, jugo y galletitas directo a tu aula de la Universidad ESAN. Desde S/10. ¡Sin salir de clase!" />
-  <meta name="keywords" content="desayuno universitarios ESAN, delivery aula, cajita desayuno, bocado desayunos Lima, snack universitario" />
-  <meta property="og:title" content="BOCADO — Tu desayuno favorito directo a tu aula" />
-  <meta property="og:description" content="Cajitas de desayuno entregadas en tu aula de la ESAN. Desde S/10. Sánguche + jugo + galletitas." />
-  <meta property="og:type" content="website" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOCADO - Tu desayuno favorito, directo a tu aula</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#e48556',    // durazno cálido
+                        secondary: '#eb5913',  // naranja intenso
+                        brandBg: '#fffffe',    // blanco crema
+                    },
+                    fontFamily: {
+                        baloo: ['"Baloo 2"', 'cursive'],
+                        nunito: ['"Nunito"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(228, 133, 86, 0.2)',
+                        'floating': '0 20px 50px -20px rgba(235, 89, 19, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #fffffe;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .font-baloo {
+            font-family: "Baloo 2", cursive;
+        }
+        
+        p, span, div, input, select, textarea, .font-nunito {
+            font-family: "Nunito", sans-serif;
+        }
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary:    '#e48556',
-            secondary:  '#eb5913',
-            cream:      '#fffffe',
-            'brown-dk': '#2d1a0e',
-            'brown-md': '#6b4226',
-            'brown-lt': '#c48a60',
-            'peach-lt': '#fef0e6',
-            'peach-md': '#fbd4b5',
-          },
-          fontFamily: {
-            baloo:  ['"Baloo 2"', 'cursive'],
-            nunito: ['Nunito', 'sans-serif'],
-          },
-          borderRadius: {
-            '4xl': '2rem',
-            '5xl': '2.5rem',
-            '6xl': '3rem',
-          },
-          boxShadow: {
-            warm:    '0 8px 32px rgba(228,133,86,.22)',
-            'warm-lg':'0 20px 60px rgba(228,133,86,.30)',
-            card:    '0 4px 24px rgba(45,26,14,.07)',
-            'card-hover':'0 12px 40px rgba(45,26,14,.13)',
-          },
-        },
-      },
-    };
-  </script>
-  <link rel="stylesheet" href="styles2.css" />
+        .btn-primary {
+            @apply font-baloo font-bold text-white bg-secondary py-3 px-8 rounded-full shadow-soft hover:shadow-floating hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1;
+        }
+
+        .btn-outline {
+            @apply font-baloo font-bold text-secondary bg-transparent border-2 border-secondary py-3 px-8 rounded-full hover:bg-secondary hover:text-white transition-all duration-300;
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .card {
+            @apply bg-white rounded-3xl p-6 shadow-soft hover:shadow-floating transition-shadow duration-300 border border-orange-50;
+        }
+
+        /* Acordeón FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px; /* arbitrary max height */
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .menu-open {
+            transform: translateX(0) !important;
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body class="font-nunito bg-cream text-brown-dk overflow-x-hidden">
-
-<!-- ══════════════ HEADER ══════════════ -->
-<header id="header" role="banner">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <nav class="flex items-center justify-between h-16 lg:h-20" aria-label="Navegación principal">
-
-      <!-- LOGO (fiel al sticker real) -->
-      <a href="#inicio" class="flex items-center gap-2.5 group" aria-label="BOCADO — inicio">
-        <svg width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"
-             class="group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
-             role="img" aria-label="Logo BOCADO">
-          <!-- Círculo rojo -->
-          <circle cx="27" cy="27" r="27" fill="#eb5913"/>
-          <!-- Cuerpo croissant: arco superior -->
-          <path d="M11 26 Q13 13 27 11 Q41 9 43 22 Q45 32 36 37 Q27 43 18 40 Q9 37 11 26Z"
-                fill="#e48556" opacity="0.25"/>
-          <!-- Croissant silueta principal -->
-          <path d="M13 27 Q15 16 27 14 Q38 12 40 22 Q43 32 34 36 Q25 40 17 37 Q10 34 13 27Z"
-                fill="#fbd4b5"/>
-          <!-- Capa dorada superior -->
-          <path d="M16 26 Q17 18 27 16 Q37 14 38 23 Q40 31 32 35 Q24 38 18 35 Q12 31 16 26Z"
-                fill="#f5c678"/>
-          <!-- Arco oscuro inferior (textura tostada) -->
-          <path d="M17 30 Q18 23 27 21 Q36 19 37 26 Q39 33 31 36 Q23 39 18 35 Z"
-                fill="#e8a84a" opacity="0.6"/>
-          <!-- Líneas de textura del pan -->
-          <path d="M20 25 Q24 22 29 23" stroke="#c8893a" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-          <path d="M21 29 Q25 26 31 27" stroke="#c8893a" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-          <!-- Ojitos -->
-          <circle cx="23" cy="26" r="1.6" fill="#2d1a0e"/>
-          <circle cx="29" cy="24" r="1.6" fill="#2d1a0e"/>
-          <circle cx="23.6" cy="25.3" r="0.55" fill="white"/>
-          <circle cx="29.6" cy="23.3" r="0.55" fill="white"/>
-          <!-- Sonrisita -->
-          <path d="M22.5 30 Q25.5 32.5 29 31" stroke="#2d1a0e" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-          <!-- Mejillas -->
-          <circle cx="20.5" cy="29" r="2.2" fill="#eb5913" opacity="0.28"/>
-          <circle cx="31" cy="27.5" r="2.2" fill="#eb5913" opacity="0.28"/>
-          <!-- Estrellitas decorativas -->
-          <circle cx="8"  cy="14" r="1.3" fill="white" opacity="0.8"/>
-          <circle cx="45" cy="12" r="1"   fill="white" opacity="0.7"/>
-          <circle cx="46" cy="36" r="1.5" fill="white" opacity="0.6"/>
-          <text x="27" y="51" text-anchor="middle" font-family="'Baloo 2',cursive"
-                font-weight="800" font-size="10" fill="white" letter-spacing="1"></text>
-        </svg>
-        <span class="font-baloo font-extrabold text-[1.7rem] leading-none tracking-tight" style="color:#eb5913">BOCADO</span>
-      </a>
-
-      <!-- Nav desktop -->
-      <ul class="hidden lg:flex items-center gap-8">
-        <li><a href="#productos"     class="nav-link font-nunito font-600 text-brown-md hover:text-secondary transition-colors">Productos</a></li>
-        <li><a href="#como-funciona" class="nav-link font-nunito font-600 text-brown-md hover:text-secondary transition-colors">Cómo funciona</a></li>
-        <li><a href="#pedidos"       class="nav-link font-nunito font-600 text-brown-md hover:text-secondary transition-colors">Hacer pedido</a></li>
-        <li><a href="#contacto"      class="nav-link font-nunito font-600 text-brown-md hover:text-secondary transition-colors">Contacto</a></li>
-      </ul>
-
-      <!-- CTA desktop -->
-      <a href="#pedidos" id="header-cta"
-         class="hidden lg:flex items-center gap-2 bg-secondary text-white font-baloo font-700 px-6 py-2.5 rounded-full text-sm hover:bg-orange-600 hover:scale-105 transition-all duration-200 shadow-warm">
-        🛒 Pedir ahora
-      </a>
-
-      <!-- Hamburguesa -->
-      <button id="ham-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mob-menu"
-              class="lg:hidden flex flex-col gap-1.5 p-2 rounded-xl hover:bg-peach-lt transition-colors">
-        <span class="ham-bar block w-6 h-0.5 bg-brown-dk transition-all duration-300"></span>
-        <span class="ham-bar block w-6 h-0.5 bg-brown-dk transition-all duration-300"></span>
-        <span class="ham-bar block w-4 h-0.5 bg-brown-dk transition-all duration-300"></span>
-      </button>
-    </nav>
-  </div>
-
-  <!-- Menú móvil -->
-  <div id="mob-menu" class="lg:hidden hidden border-t border-peach-md bg-cream/98 backdrop-blur-md shadow-card">
-    <ul class="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-4">
-      <li><a href="#productos"     class="mob-link block font-nunito font-600 text-brown-md text-lg py-2 hover:text-secondary transition-colors">📦 Productos</a></li>
-      <li><a href="#como-funciona" class="mob-link block font-nunito font-600 text-brown-md text-lg py-2 hover:text-secondary transition-colors">📋 Cómo funciona</a></li>
-      <li><a href="#pedidos"       class="mob-link block font-nunito font-600 text-brown-md text-lg py-2 hover:text-secondary transition-colors">🛒 Hacer pedido</a></li>
-      <li><a href="#contacto"      class="mob-link block font-nunito font-600 text-brown-md text-lg py-2 hover:text-secondary transition-colors">📱 Contacto</a></li>
-      <li>
-        <a href="#pedidos" class="mob-link inline-flex items-center gap-2 bg-secondary text-white font-baloo font-700 px-8 py-3 rounded-full hover:bg-orange-600 transition-all shadow-warm mt-1">
-          🛒 ¡Pedir ahora!
-        </a>
-      </li>
-    </ul>
-  </div>
-</header>
-
-
-<!-- ══════════════ HERO ══════════════ -->
-<section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden" aria-labelledby="hero-h1">
-
-  <!-- Fondo degradado -->
-  <div class="hero-gradient absolute inset-0" aria-hidden="true"></div>
-  <!-- Blob decorativo -->
-  <div class="blob-top" aria-hidden="true"></div>
-  <div class="blob-bottom" aria-hidden="true"></div>
-
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center w-full">
-
-    <!-- Copy -->
-    <div class="text-center lg:text-left fade-up">
-      <div class="pill-badge mb-6">
-        <span>🎓</span> Solo en la Universidad ESAN
-      </div>
-
-      <h1 id="hero-h1" class="font-baloo font-extrabold text-4xl sm:text-5xl lg:text-[3.6rem] xl:text-7xl leading-[1.1] text-brown-dk mb-6">
-        Tu desayuno<br/>
-        <span class="text-secondary">favorito,</span><br/>
-        directo a tu aula 🎒
-      </h1>
-
-      <p class="font-nunito text-lg sm:text-xl text-brown-md leading-relaxed mb-3 max-w-xl mx-auto lg:mx-0">
-        ¿Sin tiempo para desayunar porque llegaste corriendo a clase? ¿El estómago ya te habla en plena exposición? <strong class="text-brown-dk">Te entendemos perfectamente.</strong>
-      </p>
-      <p class="font-nunito text-lg text-brown-md leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
-        <strong class="text-secondary">BOCADO</strong> te lleva una cajita con sánguche, jugo y galletitas directo a tu asiento — sin que te muevas. Preparada con cariño, a precio de estudiante. 🧡
-      </p>
-
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-        <a href="#pedidos" id="hero-cta"
-           class="cta-pulse inline-flex items-center justify-center gap-2 bg-secondary text-white font-baloo font-700 text-lg px-8 py-4 rounded-full hover:bg-orange-600 hover:scale-105 transition-all duration-200 shadow-warm-lg">
-          🛒 ¡Pedir mi Bocado ahora!
-        </a>
-        <a href="#productos"
-           class="inline-flex items-center justify-center gap-2 bg-peach-lt text-brown-md font-baloo font-600 text-lg px-8 py-4 rounded-full border border-primary/30 hover:bg-peach-md transition-all duration-200">
-          Ver cajas 👀
-        </a>
-      </div>
-
-      <!-- Social proof -->
-      <div class="mt-9 flex items-center gap-4 justify-center lg:justify-start">
-        <div class="flex -space-x-2.5">
-          <div class="avatar-circle bg-primary">A</div>
-          <div class="avatar-circle bg-secondary">M</div>
-          <div class="avatar-circle bg-brown-lt">C</div>
-          <div class="avatar-circle bg-amber-500">R</div>
-        </div>
-        <p class="font-nunito text-sm text-brown-md">
-          <span class="font-700 text-brown-dk">+50 estudiantes ESAN</span> ya desayunan con Bocado 🔥
-        </p>
-      </div>
-    </div>
-
-    <!-- Foto real del producto flotando -->
-    <div class="relative flex justify-center lg:justify-end fade-up" style="animation-delay:.2s">
-      <div class="float-img relative">
-        <!-- Foto real: caja abierta con logo visible -->
-        <img src="assets/foto_logo_box.jpg"
-             alt="Caja BOCADO cerrada con sticker del logo — cajita artesanal lista para entregar"
-             class="w-72 h-72 sm:w-80 sm:h-80 lg:w-[400px] lg:h-[400px] object-cover rounded-5xl shadow-warm-lg border-4 border-white"
-             loading="eager" decoding="async" />
-
-        <!-- Badge precio -->
-        <div class="abs-badge-left bg-white border-2 border-primary rounded-3xl px-5 py-3 shadow-card">
-          <p class="font-baloo font-extrabold text-2xl text-secondary">desde S/10</p>
-          <p class="font-nunito text-xs text-brown-md">entrega en tu aula ✨</p>
-        </div>
-
-        <!-- Badge calidad -->
-        <div class="abs-badge-right bg-secondary text-white rounded-3xl px-4 py-3 shadow-warm">
-          <p class="font-baloo font-700 text-sm">⭐ Hecho</p>
-          <p class="font-nunito text-xs opacity-90">con cariño 🧡</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scroll hint -->
-  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-brown-md/50 animate-bounce" aria-hidden="true">
-    <span class="font-nunito text-xs">Desliza</span>
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M9 13l-6-6h12z"/></svg>
-  </div>
-</section>
-
-
-<!-- ══════════════ EL PROBLEMA ══════════════ -->
-<section id="problema" class="py-20 bg-gradient-to-b from-peach-lt to-cream" aria-labelledby="prob-h2">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-
-    <div class="fade-up">
-      <span class="section-tag">¿Te suena familiar?</span>
-      <h2 id="prob-h2" class="section-title mt-3 mb-6">
-        Ser universitario es duro 😅
-      </h2>
-      <p class="font-nunito text-lg text-brown-md leading-relaxed max-w-3xl mx-auto mb-12">
-        Clases a las 7am, trabajos que entregar, grupos que coordinar, y en algún momento te das cuenta: <strong class="text-brown-dk">¡no comiste nada!</strong> El campus de ESAN está genial, pero no siempre tienes tiempo para ir a la cafetería entre clases. Y comer mal afecta tu concentración, tu humor y tu energía para todo el día.
-      </p>
-    </div>
-
-    <div class="grid sm:grid-cols-3 gap-6 mb-12">
-      <div class="fade-up prob-card">
-        <div class="text-5xl mb-4">⏰</div>
-        <h3 class="font-baloo font-700 text-xl text-brown-dk mb-2">Sin tiempo</h3>
-        <p class="font-nunito text-brown-md text-sm leading-relaxed">Saltar de clase en clase no te deja ni 10 minutos para comer algo decente.</p>
-      </div>
-      <div class="fade-up prob-card" style="animation-delay:.1s">
-        <div class="text-5xl mb-4">💸</div>
-        <h3 class="font-baloo font-700 text-xl text-brown-dk mb-2">Presupuesto ajustado</h3>
-        <p class="font-nunito text-brown-md text-sm leading-relaxed">Los precios de delivery normal se te van de las manos. Necesitas algo rico y accesible.</p>
-      </div>
-      <div class="fade-up prob-card" style="animation-delay:.2s">
-        <div class="text-5xl mb-4">😩</div>
-        <h3 class="font-baloo font-700 text-xl text-brown-dk mb-2">Hambre entre clases</h3>
-        <p class="font-nunito text-brown-md text-sm leading-relaxed">El estómago pide auxilio justo cuando el profe está en lo más importante de la clase.</p>
-      </div>
-    </div>
-
-    <div class="fade-up bg-secondary text-white rounded-4xl p-8 lg:p-10 shadow-warm-lg">
-      <p class="font-baloo font-700 text-2xl lg:text-3xl mb-3">¡Por eso existe BOCADO! 🧡</p>
-      <p class="font-nunito text-lg opacity-90 max-w-2xl mx-auto">Te llevamos directamente a tu aula una cajita lista para comer, preparada con cariño, a precio de estudiante. Tú solo enfócate en tus clases, del resto nos encargamos nosotros.</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════ PRODUCTOS ══════════════ -->
-<section id="productos" class="py-20 bg-cream" aria-labelledby="prod-h2">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="text-center mb-14 fade-up">
-      <span class="section-tag">Elige tu favorita</span>
-      <h2 id="prod-h2" class="section-title mt-3 mb-4">Nuestras cajitas 📦</h2>
-      <p class="font-nunito text-lg text-brown-md max-w-xl mx-auto">
-        Dos opciones pensadas para ti. Ricas, nutritivas y al precio justo para universitarios.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-
-      <!-- Caja Mediana -->
-      <article id="card-mediana" class="product-card fade-up" aria-labelledby="med-title">
-        <div class="relative mb-5 overflow-hidden rounded-4xl">
-          <img src="assets/foto_caja1.jpg"
-               alt="Caja Mediana BOCADO abierta mostrando sánguche, jugo de naranja, tapercito de galletitas y caramelos"
-               class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105"
-               loading="lazy" decoding="async" />
-          <div class="prod-badge-top bg-primary text-white">¡La más popular! 🔥</div>
-        </div>
-
-        <div class="flex items-start justify-between mb-2">
-          <h3 id="med-title" class="font-baloo font-extrabold text-2xl text-brown-dk">Caja Mediana</h3>
-          <span class="font-baloo font-extrabold text-3xl text-secondary">S/10</span>
-        </div>
-        <p class="font-nunito text-brown-md text-sm mb-5 leading-relaxed">
-          Perfecta para cuando quieres un buen desayuno sin pasarte del presupuesto. ¡Todo lo que necesitas para arrancar el día con energía! 💪
-        </p>
-
-        <ul class="space-y-2.5 mb-6" aria-label="Contenido Caja Mediana">
-          <li class="prod-item"><span class="check-icon">✓</span> 🥪 Sánguche artesanal (variedad del día)</li>
-          <li class="prod-item"><span class="check-icon">✓</span> 🧃 Jugo natural (botella individual)</li>
-          <li class="prod-item"><span class="check-icon">✓</span> 🍪 Tapercito de galletitas con sticker BOCADO</li>
-          <li class="prod-item"><span class="check-icon">✓</span> 🍬 Caramelos de sorpresa</li>
-          <li class="prod-item"><span class="check-icon">✓</span> 📝 Mensajito motivador en la tapa</li>
-        </ul>
-
-        <button class="select-btn w-full bg-primary text-white font-baloo font-700 text-lg py-3.5 rounded-full hover:bg-secondary hover:scale-105 transition-all duration-200 shadow-warm"
-                data-box="Mediana" data-price="S/10"
-                aria-label="Seleccionar Caja Mediana">
-          🛒 Agregar al pedido
-        </button>
-      </article>
-
-      <!-- Caja Grande -->
-      <article id="card-grande" class="product-card-dark fade-up" style="animation-delay:.15s" aria-labelledby="grd-title">
-        <div class="relative mb-5 overflow-hidden rounded-4xl">
-          <img src="assets/foto_caja2.jpg"
-               alt="Caja Grande BOCADO abierta mostrando sánguche grande, botella de jugo, galletitas y variedad de caramelos Old England"
-               class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105"
-               loading="lazy" decoding="async" />
-          <div class="prod-badge-top bg-white text-secondary">⭐ Premium</div>
-        </div>
-
-        <div class="flex items-start justify-between mb-2">
-          <h3 id="grd-title" class="font-baloo font-extrabold text-2xl text-white">Caja Grande</h3>
-          <span class="font-baloo font-extrabold text-3xl text-white">S/15</span>
-        </div>
-        <p class="font-nunito text-white/90 text-sm mb-5 leading-relaxed">
-          Para los que necesitan más combustible. Más tamaño, más energía, más contenido. Ideal para días intensos de parciales y exposiciones. 🚀
-        </p>
-
-        <ul class="space-y-2.5 mb-6" aria-label="Contenido Caja Grande">
-          <li class="prod-item-light"><span class="check-icon-light">✓</span> 🥪 Sánguche artesanal (tamaño grande)</li>
-          <li class="prod-item-light"><span class="check-icon-light">✓</span> 🧴 Botella de jugo natural (personal)</li>
-          <li class="prod-item-light"><span class="check-icon-light">✓</span> 🍪 Tapercito de galletitas con sticker BOCADO</li>
-          <li class="prod-item-light"><span class="check-icon-light">✓</span> 🍬 Caramelos Old England variados 🎁</li>
-          <li class="prod-item-light"><span class="check-icon-light">✓</span> 📝 Mensajito motivador en la tapa</li>
-        </ul>
-
-        <button class="select-btn w-full bg-white text-secondary font-baloo font-700 text-lg py-3.5 rounded-full hover:bg-peach-lt hover:scale-105 transition-all duration-200 shadow-card"
-                data-box="Grande" data-price="S/15"
-                aria-label="Seleccionar Caja Grande">
-          🛒 Agregar al pedido
-        </button>
-      </article>
-    </div>
-
-    <!-- Fotos adicionales del producto -->
-    <div class="mt-14 fade-up">
-      <p class="text-center font-baloo font-700 text-brown-md text-sm uppercase tracking-widest mb-6">Así se ve por dentro 🍽️</p>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-        <img src="assets/foto_caja1.jpg"   alt="Interior de la caja BOCADO con tapercito y sánguche" class="gallery-img rounded-4xl h-44 object-cover w-full shadow-card hover:shadow-warm hover:scale-[1.02] transition-all duration-300" loading="lazy" />
-        <img src="assets/foto_caja_abierta.jpg" alt="Vista superior de la Caja Grande BOCADO abierta con todos sus contenidos" class="gallery-img rounded-4xl h-44 object-cover w-full shadow-card hover:shadow-warm hover:scale-[1.02] transition-all duration-300" loading="lazy" />
-        <img src="assets/foto_logo_box.jpg" alt="Caja BOCADO cerrada con el sticker del logo naranja" class="gallery-img rounded-4xl h-44 object-cover w-full shadow-card hover:shadow-warm hover:scale-[1.02] transition-all duration-300 md:block" loading="lazy" />
-      </div>
-    </div>
-
-    <!-- Coming soon -->
-    <div class="mt-10 text-center fade-up">
-      <div class="inline-flex items-center gap-3 bg-peach-lt border border-primary/30 rounded-full px-6 py-3 text-brown-md font-nunito text-sm">
-        <span class="text-xl">🌟</span>
-        <span><strong>Próximamente:</strong> más presentaciones y opciones personalizadas. ¡Síguenos en Instagram!</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════ CÓMO FUNCIONA ══════════════ -->
-<section id="como-funciona" class="py-20 bg-gradient-to-b from-cream to-peach-lt" aria-labelledby="how-h2">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="text-center mb-14 fade-up">
-      <span class="section-tag">Así de fácil</span>
-      <h2 id="how-h2" class="section-title mt-3 mb-4">¿Cómo funciona? 🤔</h2>
-      <p class="font-nunito text-lg text-brown-md max-w-xl mx-auto">3 pasos y ya tienes tu Bocado camino a tu aula. ¡Más fácil imposible!</p>
-    </div>
-
-    <div class="grid sm:grid-cols-3 gap-10 relative">
-      <!-- Línea desktop -->
-      <div class="hidden sm:block absolute top-14 left-[22%] right-[22%] h-0.5 bg-gradient-to-r from-primary to-secondary z-0" aria-hidden="true"></div>
-
-      <!-- Paso 1 -->
-      <div class="step-card fade-up">
-        <div class="step-circle bg-primary"><span class="text-4xl">📦</span></div>
-        <div class="step-num">1</div>
-        <h3 class="font-baloo font-700 text-xl text-brown-dk mb-2">Elige tu caja</h3>
-        <p class="font-nunito text-brown-md text-sm leading-relaxed">Mediana (S/10) o Grande (S/15). Las dos están increíbles, te lo prometemos.</p>
-      </div>
-
-      <!-- Paso 2 -->
-      <div class="step-card fade-up" style="animation-delay:.15s">
-        <div class="step-circle bg-peach-md"><span class="text-4xl">🏫</span></div>
-        <div class="step-num">2</div>
-        <h3 class="font-baloo font-700 text-xl text-brown-dk mb-2">Dinos tu aula</h3>
-        <p class="font-nunito text-brown-md text-sm leading-relaxed">Cuéntanos en qué aula estás y a qué hora. El formulario tarda 1 minuto.</p>
-      </div>
-
-      <!-- Paso 3 -->
-      <div class="step-card fade-up" style="animation-delay:.3s">
-        <div class="step-circle bg-secondary"><span class="text-4xl">🚀</span></div>
-        <div class="step-num bg-brown-dk">3</div>
-        <h3 class="font-baloo font-700 text-xl text-brown-dk mb-2">¡Te lo llevamos!</h3>
-        <p class="font-nunito text-brown-md text-sm leading-relaxed">Directo a tu aula. Tú enfócate en tus clases y espera tu Bocado. ✨</p>
-      </div>
-    </div>
-
-    <!-- Horarios -->
-    <div class="mt-12 bg-white rounded-4xl p-6 shadow-card text-center fade-up max-w-xl mx-auto">
-      <p class="font-baloo font-700 text-brown-dk text-lg mb-1">⏰ Horarios de entrega</p>
-      <p class="font-nunito text-brown-md">Lunes a viernes · <strong>7:00 am – 1:00 pm</strong><br/>Haz tu pedido con al menos 30 minutos de anticipación.</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════ CONFIANZA / REDES ══════════════ -->
-<section id="confianza" class="py-16 bg-peach-lt" aria-labelledby="trust-h2">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-up">
-    <h2 id="trust-h2" class="section-title mb-4">Somos tus compas de ESAN 🧡</h2>
-    <p class="font-nunito text-lg text-brown-md mb-8 max-w-xl mx-auto">
-      No somos una empresa fría. Somos estudiantes que entendemos tu día a día y queremos hacer tus mañanas más ricas y menos estresantes.
-    </p>
-
-    <!-- Mensaje de la caja real -->
-    <div class="bg-white rounded-4xl p-6 shadow-card mb-10 max-w-xl mx-auto">
-      <p class="font-nunito text-brown-md text-base italic leading-relaxed">
-        "🥐 <em>Un delicioso BOCADO para empezar el día con energía, alegría y una gran sonrisa. Gracias por permitirnos ser parte de tu mañana.</em> 🌟"
-      </p>
-      <p class="font-baloo font-700 text-secondary text-sm mt-3">— El mensajito que viene dentro de cada caja 💌</p>
-    </div>
-
-    <!-- Badge ESAN -->
-    <div class="inline-flex items-center gap-3 bg-secondary text-white rounded-full px-8 py-4 font-baloo font-700 text-lg mb-10 shadow-warm-lg">
-      <span>🎓</span> Hecho con cariño para estudiantes ESAN <span>🧡</span>
-    </div>
-
-    <!-- Redes -->
-    <div class="grid sm:grid-cols-2 gap-6 max-w-xl mx-auto">
-      <a href="https://instagram.com/bocado.desayunos" target="_blank" rel="noopener noreferrer" id="link-ig"
-         class="social-card" aria-label="Seguirnos en Instagram">
-        <div class="social-icon-wrap ig-gradient">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </div>
-        <div class="text-left">
-          <p class="font-baloo font-700 text-brown-dk">@bocado.desayunos</p>
-          <p class="font-nunito text-xs text-brown-md">Síguenos en Instagram</p>
-        </div>
-      </a>
-
-      <a href="https://tiktok.com/@bocado.desayunos" target="_blank" rel="noopener noreferrer" id="link-tt"
-         class="social-card" aria-label="Seguirnos en TikTok">
-        <div class="social-icon-wrap bg-black">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.73a8.22 8.22 0 004.85 1.56V6.82a4.85 4.85 0 01-1.08-.13z"/></svg>
-        </div>
-        <div class="text-left">
-          <p class="font-baloo font-700 text-brown-dk">@bocado.desayunos</p>
-          <p class="font-nunito text-xs text-brown-md">Síguenos en TikTok</p>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════ FORMULARIO DE PEDIDO ══════════════ -->
-<section id="pedidos" class="py-20 bg-cream" aria-labelledby="form-h2">
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="text-center mb-12 fade-up">
-      <span class="section-tag">¡Listo para pedir!</span>
-      <h2 id="form-h2" class="section-title mt-3 mb-4">Haz tu pedido 🛒</h2>
-      <p class="font-nunito text-lg text-brown-md max-w-xl mx-auto">Completa el formulario y te lo enviamos directo a tu aula. Solo tarda 1 minuto. 😊</p>
-    </div>
-
-    <form id="order-form" class="bg-white rounded-5xl p-8 lg:p-10 shadow-warm-lg fade-up" novalidate>
-
-      <!-- Nombre -->
-      <div class="field-group">
-        <label for="nombre" class="field-label">¿Cómo te llamas? <span class="text-secondary">*</span></label>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required autocomplete="name" class="field-input" />
-        <p id="nombre-err" class="field-err hidden">Por favor ingresa tu nombre.</p>
-      </div>
-
-      <!-- Aula -->
-      <div class="field-group">
-        <label for="aula" class="field-label">¿En qué aula estás? <span class="text-secondary">*</span></label>
-        <input type="text" id="aula" name="aula" placeholder="Ej: Aula B-204, 3er piso pabellón A..." required class="field-input" />
-        <p id="aula-err" class="field-err hidden">Por favor ingresa tu aula o ubicación.</p>
-      </div>
-
-      <!-- Celular -->
-      <div class="field-group">
-        <label for="celular" class="field-label">Tu celular / WhatsApp <span class="text-secondary">*</span></label>
-        <input type="tel" id="celular" name="celular" placeholder="Ej: 987 654 321" required autocomplete="tel" pattern="[0-9]{9}" class="field-input" />
-        <p id="celular-err" class="field-err hidden">Ingresa un número de 9 dígitos.</p>
-      </div>
-
-      <!-- Selección de caja -->
-      <div class="field-group">
-        <fieldset>
-          <legend class="field-label mb-3">¿Qué caja quieres? <span class="text-secondary">*</span></legend>
-          <div class="grid sm:grid-cols-2 gap-4">
-            <label class="box-radio" for="r-mediana">
-              <input type="radio" id="r-mediana" name="caja" value="Mediana - S/10" class="sr-only" required />
-              <div class="box-radio-card">
-                <span class="text-3xl block mb-2">📦</span>
-                <p class="font-baloo font-700 text-brown-dk">Caja Mediana</p>
-                <p class="font-baloo font-extrabold text-secondary text-xl">S/10</p>
-                <p class="font-nunito text-xs text-brown-md mt-1">Sánguche + jugo + galletitas</p>
-              </div>
-            </label>
-            <label class="box-radio" for="r-grande">
-              <input type="radio" id="r-grande" name="caja" value="Grande - S/15" class="sr-only" />
-              <div class="box-radio-card">
-                <span class="text-3xl block mb-2">📦</span>
-                <p class="font-baloo font-700 text-brown-dk">Caja Grande</p>
-                <p class="font-baloo font-extrabold text-secondary text-xl">S/15</p>
-                <p class="font-nunito text-xs text-brown-md mt-1">+ botella de jugo y caramelos</p>
-              </div>
-            </label>
-          </div>
-          <p id="caja-err" class="field-err hidden">Por favor elige una caja.</p>
-        </fieldset>
-      </div>
-
-      <!-- Cantidad -->
-      <div class="field-group">
-        <label class="field-label" for="cantidad">¿Cuántas cajas? <span class="text-secondary">*</span></label>
-        <div class="flex items-center gap-5">
-          <button type="button" id="qty-minus" class="qty-btn" aria-label="Reducir">−</button>
-          <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="10" required readonly
-                 class="w-14 text-center font-baloo font-extrabold text-2xl text-brown-dk bg-transparent border-none outline-none"
-                 aria-label="Cantidad" />
-          <button type="button" id="qty-plus" class="qty-btn" aria-label="Aumentar">+</button>
-        </div>
-      </div>
-
-      <!-- Método de pago -->
-      <div class="field-group">
-        <fieldset>
-          <legend class="field-label mb-3">Método de pago <span class="text-secondary">*</span></legend>
-          <div class="grid sm:grid-cols-2 gap-4">
-            <label class="pago-radio" for="r-yape">
-              <input type="radio" id="r-yape" name="pago" value="Yape / Plin" class="sr-only" required />
-              <div class="pago-radio-card">
-                <span class="text-2xl">📲</span>
-                <div>
-                  <p class="font-baloo font-700 text-brown-dk text-sm">Yape / Plin</p>
-                  <p class="font-nunito text-xs text-brown-md">Pago digital</p>
+    <!-- Navbar -->
+    <header class="fixed w-full bg-brandBg/90 backdrop-blur-md z-50 border-b border-orange-100 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo SVG -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <svg width="140" height="45" viewBox="0 0 200 65" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Círculo fondo -->
+                        <circle cx="100" cy="32" r="32" fill="#eb5913" />
+                        <!-- Croissant simplificado -->
+                        <path d="M 80 25 Q 100 10 120 25 Q 125 35 110 38 Q 100 40 90 38 Q 75 35 80 25 Z" fill="#ffb459" stroke="#d68428" stroke-width="2"/>
+                        <path d="M 70 30 Q 80 20 85 28 Q 85 36 75 38 Q 65 35 70 30 Z" fill="#ffb459" stroke="#d68428" stroke-width="1.5"/>
+                        <path d="M 130 30 Q 120 20 115 28 Q 115 36 125 38 Q 135 35 130 30 Z" fill="#ffb459" stroke="#d68428" stroke-width="1.5"/>
+                        <!-- Carita feliz -->
+                        <circle cx="95" cy="30" r="2.5" fill="#5c3a21" />
+                        <circle cx="105" cy="30" r="2.5" fill="#5c3a21" />
+                        <!-- Texto BOCADO (simulado con SVG text, usando fuente del sistema gruesa para el SVG) -->
+                        <text x="100" y="55" font-family="'Baloo 2', sans-serif" font-weight="800" font-size="28" fill="#ffffff" text-anchor="middle">BOCADO</text>
+                        <!-- Estrellitas kawai -->
+                        <path d="M 68 18 L 70 14 L 72 18 L 76 20 L 72 22 L 70 26 L 68 22 L 64 20 Z" fill="#ffffff"/>
+                        <path d="M 128 15 L 129 13 L 130 15 L 132 16 L 130 17 L 129 19 L 128 17 L 126 16 Z" fill="#ffffff"/>
+                    </svg>
                 </div>
-              </div>
-            </label>
-            <label class="pago-radio" for="r-efectivo">
-              <input type="radio" id="r-efectivo" name="pago" value="Efectivo al recibir" class="sr-only" />
-              <div class="pago-radio-card">
-                <span class="text-2xl">💵</span>
-                <div>
-                  <p class="font-baloo font-700 text-brown-dk text-sm">Efectivo</p>
-                  <p class="font-nunito text-xs text-brown-md">Al recibir tu caja</p>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#productos" class="font-nunito font-bold text-gray-600 hover:text-secondary transition-colors">Productos</a>
+                    <a href="#como-funciona" class="font-nunito font-bold text-gray-600 hover:text-secondary transition-colors">Cómo funciona</a>
+                    <a href="#testimonios" class="font-nunito font-bold text-gray-600 hover:text-secondary transition-colors">Reseñas</a>
+                    <a href="#faq" class="font-nunito font-bold text-gray-600 hover:text-secondary transition-colors">Preguntas</a>
+                    <a href="#pedido" class="btn-primary text-sm px-6 py-2">Pedir ahora</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-secondary focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
                 </div>
-              </div>
-            </label>
-          </div>
-          <p id="pago-err" class="field-err hidden">Por favor elige un método de pago.</p>
-        </fieldset>
-      </div>
+            </div>
+        </div>
+    </header>
 
-      <!-- Submit -->
-      <button type="submit" id="confirm-btn"
-              class="w-full bg-secondary text-white font-baloo font-extrabold text-xl py-4 rounded-full hover:bg-orange-600 hover:scale-105 transition-all duration-200 shadow-warm-lg flex items-center justify-center gap-3">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        ¡Confirmar pedido por WhatsApp!
-      </button>
-      <p class="text-center font-nunito text-xs text-brown-lt mt-4">Al confirmar, te redirigimos a WhatsApp con tu pedido listo 📱</p>
-    </form>
-  </div>
-</section>
-
-
-<!-- ══════════════ TESTIMONIOS ══════════════ -->
-<section id="testimonios" class="py-20 bg-gradient-to-b from-peach-lt to-cream" aria-labelledby="test-h2">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="text-center mb-14 fade-up">
-      <span class="section-tag">Lo dicen ellos</span>
-      <h2 id="test-h2" class="section-title mt-3 mb-4">¿Qué dicen nuestros clientes? ⭐</h2>
-      <p class="font-nunito text-lg text-brown-md">¡Estudiantes ESAN que ya despertaron y sonrieron gracias a Bocado!</p>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl z-40 transform translate-x-full pt-24 px-6 flex flex-col gap-6">
+        <a href="#productos" class="mobile-link font-baloo text-xl text-gray-800 border-b border-gray-100 pb-2">Productos</a>
+        <a href="#como-funciona" class="mobile-link font-baloo text-xl text-gray-800 border-b border-gray-100 pb-2">Cómo funciona</a>
+        <a href="#faq" class="mobile-link font-baloo text-xl text-gray-800 border-b border-gray-100 pb-2">Preguntas</a>
+        <a href="#pedido" class="mobile-link btn-primary text-center mt-4">Pedir ahora</a>
     </div>
 
-    <div class="grid sm:grid-cols-3 gap-6">
-      <article class="test-card fade-up" aria-labelledby="t1">
-        <div class="stars mb-4">★★★★★</div>
-        <blockquote class="font-nunito text-brown-md text-sm leading-relaxed mb-5 italic">
-          "Llegué corriendo a las 8am sin desayunar, con exposición a las 9. Pedí mi Bocado y llegó puntualísimo al aula. El sánguche estaba increíble y el mensajito en la tapa me hizo sonreír 🙌"
-        </blockquote>
-        <div class="flex items-center gap-3">
-          <div class="test-avatar bg-primary">A</div>
-          <div><p id="t1" class="font-baloo font-700 text-brown-dk text-sm">Andrea M.</p><p class="font-nunito text-xs text-brown-lt">Administración · 4to ciclo</p></div>
+    <main class="pt-20">
+        
+        <!-- Hero Section -->
+        <section class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 lg:py-32 flex flex-col-reverse md:flex-row items-center gap-12 fade-in-section">
+            <div class="md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left z-10">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-secondary rounded-full mb-6 font-bold text-sm">
+                    <i class="fas fa-sun"></i> ¡Despiértate y sonríe!
+                </div>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                    Tu desayuno favorito, <br/><span class="text-secondary">directo a tu aula</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8 font-nunito max-w-lg">
+                    Sabemos que la vida universitaria en ESAN es acelerada. No te quedes sin energía: te llevamos una cajita llena de alegría y sabor para que hoy sea un día genial.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="#pedido" class="btn-primary text-center text-lg">Hacer mi pedido</a>
+                    <a href="#productos" class="btn-outline text-center text-lg">Ver opciones</a>
+                </div>
+            </div>
+            
+            <div class="md:w-1/2 relative w-full flex justify-center">
+                <!-- Hero Image/Illustration wrapper -->
+                <div class="relative w-72 h-72 md:w-96 md:h-96">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+                    <img src="./WhatsApp Image 2026-07-03 at 12.07.25 AM.jpeg" alt="Caja Bocado Desayuno" class="relative z-10 w-full h-full object-cover rounded-full shadow-2xl border-8 border-white transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <!-- Floating badge -->
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl z-20 flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                        <div class="bg-green-100 text-green-600 w-10 h-10 rounded-full flex items-center justify-center text-xl">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-baloo font-bold text-gray-800 leading-tight">Entrega</p>
+                            <p class="text-sm text-gray-500 font-nunito">Rápida en ESAN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- El Problema -->
+        <section id="problema" class="bg-orange-50 py-16 fade-in-section">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">¿Otra vez saliste corriendo sin desayunar? 🏃‍♂️💨</h2>
+                <p class="text-xl text-gray-600 font-nunito mb-8">
+                    Llegar temprano a clases, repasar para el control de lectura y buscar estacionamiento no te deja tiempo para ti. El hambre entre clases desconcentra a cualquiera, y las colas en la cafetería son interminables.
+                </p>
+                <p class="text-2xl font-baloo font-bold text-secondary">
+                    ¡Relájate! Para eso existe BOCADO 🥐🧡
+                </p>
+            </div>
+        </section>
+
+        <!-- Productos -->
+        <section id="productos" class="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-section">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Nuestras Cajitas Mágicas ✨</h2>
+                <p class="text-lg text-gray-600 font-nunito">Elige el tamaño perfecto para tu apetito mañanero.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                
+                <!-- Caja Mediana -->
+                <div class="card relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-primary text-white font-baloo font-bold px-4 py-1 rounded-bl-2xl rounded-tr-3xl z-10">
+                        Popular
+                    </div>
+                    <div class="h-56 w-full rounded-2xl mb-6 overflow-hidden bg-gray-100 relative">
+                        <!-- Placeholder for real image: Caja mediana -->
+                        <img src="./WhatsApp Image 2026-07-03 at 12.07.14 AM.jpeg" alt="Caja Mediana" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-2">Caja Mediana</h3>
+                    <p class="text-3xl font-bold text-secondary mb-6">S/ 10.00</p>
+                    
+                    <ul class="space-y-3 mb-8 font-nunito text-gray-700">
+                        <li class="flex items-center gap-3"><i class="fas fa-sandwich text-primary w-5 text-center"></i> 🥪 Sánguche fresco</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-glass-water text-primary w-5 text-center"></i> 🧃 Jugo de naranja Del Valle</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-cookie text-primary w-5 text-center"></i> 🍪 Tapercito de galletitas</li>
+                    </ul>
+                    
+                    <button onclick="seleccionarCaja('mediana')" class="w-full btn-outline hover:bg-primary hover:border-primary text-lg">Agregar al pedido</button>
+                </div>
+
+                <!-- Caja Grande -->
+                <div class="card relative overflow-hidden group border-2 border-secondary">
+                    <div class="absolute top-0 right-0 bg-secondary text-white font-baloo font-bold px-4 py-1 rounded-bl-2xl rounded-tr-3xl z-10">
+                        Para mucha hambre
+                    </div>
+                    <div class="h-56 w-full rounded-2xl mb-6 overflow-hidden bg-gray-100 relative">
+                        <!-- Placeholder for real image: Caja grande -->
+                        <img src="./WhatsApp Image 2026-07-03 at 12.07.27 AM.jpeg" alt="Caja Grande" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-2">Caja Grande</h3>
+                    <p class="text-3xl font-bold text-secondary mb-6">S/ 15.00</p>
+                    
+                    <ul class="space-y-3 mb-8 font-nunito text-gray-700">
+                        <li class="flex items-center gap-3"><i class="fas fa-sandwich text-primary w-5 text-center"></i> 🥪 Sánguche fresco</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-glass-water text-primary w-5 text-center"></i> 🧃 Jugo de naranja Del Valle</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-cookie text-primary w-5 text-center"></i> 🍪 Tapercito de galletitas</li>
+                        <li class="flex items-center gap-3 font-bold text-secondary"><i class="fas fa-candy-cane text-secondary w-5 text-center"></i> 🍬 Caramelos / Frunas extra</li>
+                    </ul>
+                    
+                    <button onclick="seleccionarCaja('grande')" class="w-full btn-primary text-lg">Agregar al pedido</button>
+                </div>
+                
+            </div>
+            <p class="text-center mt-10 text-gray-500 font-nunito text-sm italic">
+                * ¡Siempre es bueno sonreír! Próximamente tendremos más presentaciones y opciones para que personalices tu Bocado.
+            </p>
+        </section>
+
+        <!-- Cómo funciona -->
+        <section id="como-funciona" class="bg-white py-20 fade-in-section border-y border-orange-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">¿Cómo llega la felicidad a ti? 🛵</h2>
+                    <p class="text-lg text-gray-600 font-nunito">Tres pasitos y listo, a disfrutar de tu mañana.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 relative">
+                    <!-- Conector línea (solo desktop) -->
+                    <div class="hidden md:block absolute top-12 left-1/6 right-1/6 h-1 bg-orange-100 z-0"></div>
+                    
+                    <!-- Paso 1 -->
+                    <div class="relative z-10 flex flex-col items-center text-center group">
+                        <div class="w-24 h-24 bg-brandBg border-4 border-primary rounded-full flex items-center justify-center text-4xl text-primary mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-soft">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">1. Eliges tu caja</h3>
+                        <p class="text-gray-600 font-nunito">Mediana para el antojo, grande para arrancar con todo.</p>
+                    </div>
+                    
+                    <!-- Paso 2 -->
+                    <div class="relative z-10 flex flex-col items-center text-center group">
+                        <div class="w-24 h-24 bg-brandBg border-4 border-primary rounded-full flex items-center justify-center text-4xl text-primary mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-soft">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">2. Nos dices dónde</h3>
+                        <p class="text-gray-600 font-nunito">Completa el formulario indicando tu aula u otra ubicación dentro de ESAN.</p>
+                    </div>
+                    
+                    <!-- Paso 3 -->
+                    <div class="relative z-10 flex flex-col items-center text-center group">
+                        <div class="w-24 h-24 bg-brandBg border-4 border-primary rounded-full flex items-center justify-center text-4xl text-primary mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-soft">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">3. Te la entregamos</h3>
+                        <p class="text-gray-600 font-nunito">Te llevamos el desayuno hasta la puerta de tu salón. ¡Pagas al instante!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Confianza / Social -->
+        <section id="confianza" class="py-16 bg-gradient-to-r from-orange-50 to-red-50 fade-in-section">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <div class="inline-flex items-center justify-center bg-white px-6 py-3 rounded-full shadow-soft mb-8 gap-3">
+                    <span class="text-red-500 text-xl"><i class="fas fa-heart"></i></span>
+                    <span class="font-baloo font-bold text-gray-800 text-lg">Hecho con cariño para estudiantes ESAN</span>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">Únete a nuestra comunidad</h3>
+                <div class="flex justify-center gap-6">
+                    <a href="https://instagram.com/bocado.desayunos" target="_blank" class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl text-pink-600 shadow-soft hover:scale-110 hover:text-white hover:bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500 transition-all duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@bocado.desayunos" target="_blank" class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl text-black shadow-soft hover:scale-110 hover:text-white hover:bg-black transition-all duration-300">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+                <p class="mt-4 font-nunito text-gray-600 font-bold">@bocado.desayunos</p>
+            </div>
+        </section>
+
+        <!-- Formulario de Pedido -->
+        <section id="pedido" class="py-20 max-w-3xl mx-auto px-4 fade-in-section">
+            <div class="card bg-white !p-8 md:!p-12 !border-2 !border-primary">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-3">Pide tu Bocado 📱</h2>
+                    <p class="text-gray-600 font-nunito">Llena tus datos y te enviaremos al WhatsApp para confirmar al instante.</p>
+                </div>
+                
+                <form id="orderForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Nombre -->
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2 font-nunito" for="nombre">Tu Nombre</label>
+                            <input required type="text" id="nombre" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all font-nunito bg-gray-50 focus:bg-white" placeholder="Ej: María Pérez">
+                        </div>
+                        
+                        <!-- Celular -->
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2 font-nunito" for="celular">Celular / WhatsApp</label>
+                            <input required type="tel" id="celular" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all font-nunito bg-gray-50 focus:bg-white" placeholder="Ej: 987654321">
+                        </div>
+                    </div>
+                    
+                    <!-- Aula / Ubicación -->
+                    <div>
+                        <label class="block text-gray-700 font-bold mb-2 font-nunito" for="ubicacion">Aula o ubicación en ESAN</label>
+                        <input required type="text" id="ubicacion" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all font-nunito bg-gray-50 focus:bg-white" placeholder="Ej: Pabellón A, Aula 102">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Tipo de Caja -->
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2 font-nunito">¿Qué caja deseas?</label>
+                            <select id="tipoCaja" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all font-nunito bg-gray-50 focus:bg-white cursor-pointer">
+                                <option value="Mediana (S/10)">Caja Mediana (S/ 10.00)</option>
+                                <option value="Grande (S/15)">Caja Grande (S/ 15.00)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Cantidad -->
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2 font-nunito" for="cantidad">Cantidad</label>
+                            <input required type="number" min="1" max="20" value="1" id="cantidad" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all font-nunito bg-gray-50 focus:bg-white">
+                        </div>
+                    </div>
+                    
+                    <!-- Método de pago -->
+                    <div>
+                        <label class="block text-gray-700 font-bold mb-3 font-nunito">¿Cómo te gustaría pagar?</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="pago" value="Yape" class="peer sr-only" checked>
+                                <div class="p-3 text-center rounded-xl border-2 border-gray-200 peer-checked:border-secondary peer-checked:bg-orange-50 hover:bg-gray-50 transition-all">
+                                    <p class="font-bold font-nunito text-gray-800">Yape</p>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="pago" value="Plin" class="peer sr-only">
+                                <div class="p-3 text-center rounded-xl border-2 border-gray-200 peer-checked:border-secondary peer-checked:bg-orange-50 hover:bg-gray-50 transition-all">
+                                    <p class="font-bold font-nunito text-gray-800">Plin</p>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="pago" value="Efectivo" class="peer sr-only">
+                                <div class="p-3 text-center rounded-xl border-2 border-gray-200 peer-checked:border-secondary peer-checked:bg-orange-50 hover:bg-gray-50 transition-all">
+                                    <p class="font-bold font-nunito text-gray-800 text-sm">Efectivo</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full btn-primary text-xl py-4 mt-4 flex justify-center items-center gap-3">
+                        Confirmar pedido <i class="fab fa-whatsapp text-2xl"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Testimonios -->
+        <section id="testimonios" class="py-20 bg-brandBg fade-in-section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Lo que dicen nuestros amigxs 💬</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card text-center">
+                        <div class="w-16 h-16 mx-auto bg-gray-200 rounded-full mb-4 overflow-hidden border-2 border-primary">
+                            <img src="https://i.pravatar.cc/150?img=47" alt="Estudiante" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-yellow-400 mb-3 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="italic text-gray-600 font-nunito mb-4">"Me salvó la vida antes del parcial de finanzas. El sánguche buenazo y que me lo lleven al pabellón B fue lo mejor."</p>
+                        <h4 class="font-bold text-gray-800 font-baloo">- Mateo C.</h4>
+                    </div>
+                    
+                    <div class="card text-center transform md:-translate-y-4">
+                        <div class="w-16 h-16 mx-auto bg-gray-200 rounded-full mb-4 overflow-hidden border-2 border-secondary">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Estudiante" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-yellow-400 mb-3 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="italic text-gray-600 font-nunito mb-4">"La caja grande es mi favorita. Es recontra práctico, pido por WhatsApp y pago con Yape cuando me lo entregan. 10/10."</p>
+                        <h4 class="font-bold text-gray-800 font-baloo">- Luciana V.</h4>
+                    </div>
+                    
+                    <div class="card text-center">
+                        <div class="w-16 h-16 mx-auto bg-gray-200 rounded-full mb-4 overflow-hidden border-2 border-primary">
+                            <img src="https://i.pravatar.cc/150?img=12" alt="Estudiante" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-yellow-400 mb-3 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="italic text-gray-600 font-nunito mb-4">"Llega calientito y el jugo siempre está fresco. Definitivamente vale la pena cuando tienes amanecidas estudiando."</p>
+                        <h4 class="font-bold text-gray-800 font-baloo">- Diego R.</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-20 bg-orange-50 fade-in-section">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Preguntas Frecuentes 🤔</h2>
+                    <p class="text-gray-600 font-nunito">Resolvemos tus dudas rapidísimo.</p>
+                </div>
+                
+                <div class="space-y-4" id="accordion">
+                    <!-- Pregunta 1 -->
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-lg text-gray-800 font-baloo">¿Cuáles son los horarios de entrega?</span>
+                            <i class="fas fa-chevron-down text-primary faq-icon transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-answer bg-orange-50/30">
+                            <p class="px-6 pb-5 pt-2 text-gray-600 font-nunito">
+                                Repartimos de lunes a viernes desde las 7:00 AM hasta las 11:00 AM para cubrir los primeros bloques de clases. ¡Te recomendamos pedir con anticipación!
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pregunta 2 -->
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-lg text-gray-800 font-baloo">¿En qué zonas de ESAN entregan?</span>
+                            <i class="fas fa-chevron-down text-primary faq-icon transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-answer bg-orange-50/30">
+                            <p class="px-6 pb-5 pt-2 text-gray-600 font-nunito">
+                                Llegamos a todos los pabellones de pregrado, áreas comunes principales, biblioteca y comedores. Solo indícanos bien tu ubicación en el formulario.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pregunta 3 -->
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-lg text-gray-800 font-baloo">¿Qué métodos de pago aceptan?</span>
+                            <i class="fas fa-chevron-down text-primary faq-icon transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-answer bg-orange-50/30">
+                            <p class="px-6 pb-5 pt-2 text-gray-600 font-nunito">
+                                Aceptamos Yape, Plin y efectivo contra entrega (al momento de darte tu cajita). Tú eliges lo que te sea más fácil.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pregunta 4 -->
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-lg text-gray-800 font-baloo">¿Puedo personalizar el contenido de la caja?</span>
+                            <i class="fas fa-chevron-down text-primary faq-icon transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-answer bg-orange-50/30">
+                            <p class="px-6 pb-5 pt-2 text-gray-600 font-nunito">
+                                Por ahora nuestras cajitas están armadas con mucho amor en dos presentaciones estándar para agilizar las entregas. ¡Pero pronto traeremos opciones para que elijas tus sabores favoritos!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8 text-center md:text-left">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-10 mb-12">
+                <!-- Brand -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h2 class="text-3xl font-baloo font-extrabold text-primary mb-4 tracking-wider">BOCADO</h2>
+                    <p class="text-gray-400 font-nunito mb-6 max-w-xs">
+                        Despiértate y sonríe. Llevamos el desayuno más rico directo a tu aula en ESAN.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://instagram.com/bocado.desayunos" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="https://tiktok.com/@bocado.desayunos" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-tiktok text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div>
+                    <h3 class="text-xl font-baloo font-bold mb-6">Enlaces Rápidos</h3>
+                    <ul class="space-y-3 font-nunito text-gray-400">
+                        <li><a href="#productos" class="hover:text-primary transition-colors">Cajitas Mágicas</a></li>
+                        <li><a href="#como-funciona" class="hover:text-primary transition-colors">Cómo funciona</a></li>
+                        <li><a href="#faq" class="hover:text-primary transition-colors">Preguntas Frecuentes</a></li>
+                        <li><a href="#pedido" class="hover:text-primary transition-colors">Hacer un Pedido</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contacto -->
+                <div>
+                    <h3 class="text-xl font-baloo font-bold mb-6">Contacto</h3>
+                    <ul class="space-y-3 font-nunito text-gray-400">
+                        <li class="flex items-center justify-center md:justify-start gap-3">
+                            <i class="fab fa-whatsapp text-primary text-xl"></i>
+                            <a href="https://wa.me/51978024354" target="_blank" class="hover:text-primary transition-colors">+51 978024354</a>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-3">
+                            <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+                            <span>Universidad ESAN, Surco</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 font-nunito text-sm">
+                    &copy; 2026 BOCADO Desayunos. Hecho con <i class="fas fa-heart text-secondary"></i> para ESAN.
+                </p>
+            </div>
         </div>
-      </article>
+    </footer>
 
-      <article class="test-card-dark fade-up" style="animation-delay:.1s" aria-labelledby="t2">
-        <div class="stars-light mb-4">★★★★★</div>
-        <blockquote class="font-nunito text-white/90 text-sm leading-relaxed mb-5 italic">
-          "La Caja Grande es perfecta para mis días de doble jornada. Clase de 7am a 2pm y con Bocado me alcanza toda la mañana. Los caramelos Old England son un detalle genial. ¡Precio justo!"
-        </blockquote>
-        <div class="flex items-center gap-3">
-          <div class="test-avatar bg-white text-secondary">M</div>
-          <div><p id="t2" class="font-baloo font-700 text-white text-sm">Marco R.</p><p class="font-nunito text-xs text-white/60">Marketing · 3er ciclo</p></div>
-        </div>
-      </article>
+    <!-- Scripts -->
+    <script>
+        // Función para preseleccionar la caja y hacer scroll al formulario
+        function seleccionarCaja(tipo) {
+            const select = document.getElementById('tipoCaja');
+            if(tipo === 'mediana') {
+                select.value = 'Mediana (S/10)';
+            } else {
+                select.value = 'Grande (S/15)';
+            }
+            document.getElementById('pedido').scrollIntoView({ behavior: 'smooth' });
+        }
 
-      <article class="test-card fade-up" style="animation-delay:.2s" aria-labelledby="t3">
-        <div class="stars mb-4">★★★★★</div>
-        <blockquote class="font-nunito text-brown-md text-sm leading-relaxed mb-5 italic">
-          "Honestamente pensé que era muy bueno para ser verdad. ¿Me traen desayuno al aula? Sí, y además está delicioso y es barato. Las galletitas con el sticker de BOCADO son adorables 😄"
-        </blockquote>
-        <div class="flex items-center gap-3">
-          <div class="test-avatar bg-brown-lt">C</div>
-          <div><p id="t3" class="font-baloo font-700 text-brown-dk text-sm">Camila V.</p><p class="font-nunito text-xs text-brown-lt">Contabilidad · 2do ciclo</p></div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
+        // Lógica del formulario hacia WhatsApp
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nombre = document.getElementById('nombre').value;
+            const celular = document.getElementById('celular').value;
+            const ubicacion = document.getElementById('ubicacion').value;
+            const tipoCaja = document.getElementById('tipoCaja').value;
+            const cantidad = document.getElementById('cantidad').value;
+            
+            // Obtener valor del radio button de pago
+            const radios = document.getElementsByName('pago');
+            let pago = '';
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    pago = radios[i].value;
+                    break;
+                }
+            }
 
+            // Número de WhatsApp (proporcionado en las instrucciones)
+            const numeroWspp = '51978024354';
+            
+            // Construir el mensaje
+            const mensaje = `¡Hola BOCADO! 🥐🧡 Quiero pedir mi desayuno para hoy:%0A%0A` +
+                          `*Nombre:* ${nombre}%0A` +
+                          `*Celular:* ${celular}%0A` +
+                          `*Aula/Ubicación en ESAN:* ${ubicacion}%0A` +
+                          `*Pedido:* ${cantidad}x ${tipoCaja}%0A` +
+                          `*Método de pago:* ${pago}%0A%0A` +
+                          `¡Espero mi confirmación, gracias! ✨`;
+            
+            // Redirigir a WhatsApp
+            const url = `https://wa.me/${numeroWspp}?text=${mensaje}`;
+            window.open(url, '_blank');
+        });
 
-<!-- ══════════════ FAQ ══════════════ -->
-<section id="faq" class="py-20 bg-cream" aria-labelledby="faq-h2">
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        // Toggle FAQ Accordion
+        function toggleFaq(btn) {
+            const faqItem = btn.parentElement;
+            // Cerrar todos
+            const allItems = document.querySelectorAll('.faq-item');
+            allItems.forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                }
+            });
+            // Alternar el actual
+            faqItem.classList.toggle('active');
+        }
 
-    <div class="text-center mb-14 fade-up">
-      <span class="section-tag">Dudas frecuentes</span>
-      <h2 id="faq-h2" class="section-title mt-3 mb-4">¿Tienes preguntas? 🤔</h2>
-    </div>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('menu-open');
+            const icon = menuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('menu-open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
 
-    <div id="faq-list" class="space-y-4 fade-up" role="list">
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('menu-open');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+            });
+        });
 
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="fa1">
-          <span>⏰ ¿Cuáles son los horarios de entrega?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a" id="fa1">
-          <p class="font-nunito text-brown-md text-sm leading-relaxed px-6 pb-5">
-            Atendemos de <strong>lunes a viernes de 7:00am a 1:00pm</strong>. Te recomendamos hacer tu pedido con al menos 30 minutos de anticipación. Para pedidos fuera del horario, escríbenos al WhatsApp y coordinamos.
-          </p>
-        </div>
-      </div>
+        // Intersection Observer para Animaciones Fade-in al hacer scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
 
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="fa2">
-          <span>🏫 ¿A qué zonas de la ESAN llegan?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a" id="fa2">
-          <p class="font-nunito text-brown-md text-sm leading-relaxed px-6 pb-5">
-            Llegamos a <strong>todas las aulas y pabellones de la ESAN</strong>: pabellón A, B, C, aulas de posgrado, biblioteca y zonas comunes. Solo dinos exactamente dónde estás y llegamos sin problema.
-          </p>
-        </div>
-      </div>
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Opcional: dejar de observar una vez que ya apareció
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="fa3">
-          <span>💳 ¿Qué métodos de pago aceptan?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a" id="fa3">
-          <p class="font-nunito text-brown-md text-sm leading-relaxed px-6 pb-5">
-            Aceptamos <strong>Yape y Plin</strong> (pago previo al envío) y <strong>efectivo al recibir</strong> tu caja. ¡Siempre coordinamos contigo para que sea lo más fácil posible!
-          </p>
-        </div>
-      </div>
+        document.querySelectorAll('.fade-in-section').forEach((section) => {
+            observer.observe(section);
+        });
 
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="fa4">
-          <span>🥗 ¿Puedo personalizar el contenido de mi caja?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a" id="fa4">
-          <p class="font-nunito text-brown-md text-sm leading-relaxed px-6 pb-5">
-            Por ahora tenemos el menú fijo del día para asegurar calidad y rapidez. Si tienes alguna alergia o restricción, <strong>cuéntanos por WhatsApp</strong> y nos adaptamos. ¡Tu bienestar es lo primero! Próximamente lanzaremos opciones personalizadas.
-          </p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="fa5">
-          <span>📱 ¿Cuánto tarda en llegar mi pedido?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a" id="fa5">
-          <p class="font-nunito text-brown-md text-sm leading-relaxed px-6 pb-5">
-            El tiempo promedio de entrega es de <strong>15 a 30 minutos</strong> desde que confirmas tu pedido. Siempre te mantenemos informado por WhatsApp. ¡Nunca te dejamos con hambre sin avisar!
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════ FOOTER ══════════════ -->
-<footer id="contacto" class="bg-brown-dk text-white py-16" role="contentinfo">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid sm:grid-cols-3 gap-12 mb-12">
-
-      <!-- Logo & descripción -->
-      <div>
-        <a href="#inicio" class="flex items-center gap-2 mb-4 group" aria-label="BOCADO inicio">
-          <svg width="48" height="48" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"
-               class="group-hover:scale-110 transition-transform duration-300" role="img" aria-label="Logo BOCADO">
-            <circle cx="27" cy="27" r="27" fill="#eb5913"/>
-            <path d="M13 27 Q15 16 27 14 Q38 12 40 22 Q43 32 34 36 Q25 40 17 37 Q10 34 13 27Z" fill="#fbd4b5"/>
-            <path d="M16 26 Q17 18 27 16 Q37 14 38 23 Q40 31 32 35 Q24 38 18 35 Q12 31 16 26Z" fill="#f5c678"/>
-            <path d="M17 30 Q18 23 27 21 Q36 19 37 26 Q39 33 31 36 Q23 39 18 35 Z" fill="#e8a84a" opacity="0.6"/>
-            <path d="M20 25 Q24 22 29 23" stroke="#c8893a" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-            <path d="M21 29 Q25 26 31 27" stroke="#c8893a" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-            <circle cx="23" cy="26" r="1.6" fill="#2d1a0e"/>
-            <circle cx="29" cy="24" r="1.6" fill="#2d1a0e"/>
-            <circle cx="23.6" cy="25.3" r="0.55" fill="white"/>
-            <circle cx="29.6" cy="23.3" r="0.55" fill="white"/>
-            <path d="M22.5 30 Q25.5 32.5 29 31" stroke="#2d1a0e" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-            <circle cx="8" cy="14" r="1.3" fill="white" opacity="0.8"/>
-            <circle cx="45" cy="12" r="1" fill="white" opacity="0.7"/>
-          </svg>
-          <span class="font-baloo font-extrabold text-2xl" style="color:#eb5913">BOCADO</span>
-        </a>
-        <p class="font-nunito text-white/70 text-sm leading-relaxed mb-4">Desayunos y snacks entregados directo en tu aula. Hecho con cariño para la ESAN. 🧡</p>
-        <p class="font-nunito text-primary text-sm italic">"¡Siempre es bueno sonreír!"</p>
-      </div>
-
-      <!-- Nav -->
-      <div>
-        <h3 class="font-baloo font-700 text-lg mb-4">Navegación</h3>
-        <ul class="space-y-2">
-          <li><a href="#productos"     class="font-nunito text-white/70 text-sm hover:text-primary transition-colors">📦 Nuestros productos</a></li>
-          <li><a href="#como-funciona" class="font-nunito text-white/70 text-sm hover:text-primary transition-colors">📋 Cómo funciona</a></li>
-          <li><a href="#pedidos"       class="font-nunito text-white/70 text-sm hover:text-primary transition-colors">🛒 Hacer un pedido</a></li>
-          <li><a href="#faq"           class="font-nunito text-white/70 text-sm hover:text-primary transition-colors">❓ Preguntas frecuentes</a></li>
-        </ul>
-      </div>
-
-      <!-- Contacto -->
-      <div>
-        <h3 class="font-baloo font-700 text-lg mb-4">Contáctanos</h3>
-        <div class="space-y-3">
-          <a href="https://wa.me/51978024354" target="_blank" rel="noopener noreferrer" id="footer-wa"
-             class="flex items-center gap-3 font-nunito text-white/70 text-sm hover:text-primary transition-colors">
-            <span class="text-xl">💬</span> WhatsApp: +51 978 024 354
-          </a>
-          <a href="https://instagram.com/bocado.desayunos" target="_blank" rel="noopener noreferrer" id="footer-ig"
-             class="flex items-center gap-3 font-nunito text-white/70 text-sm hover:text-primary transition-colors">
-            <span class="text-xl">📸</span> @bocado.desayunos
-          </a>
-          <a href="https://tiktok.com/@bocado.desayunos" target="_blank" rel="noopener noreferrer" id="footer-tt"
-             class="flex items-center gap-3 font-nunito text-white/70 text-sm hover:text-primary transition-colors">
-            <span class="text-xl">🎵</span> @bocado.desayunos
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="font-nunito text-white/50 text-xs">© 2025 BOCADO. Todos los derechos reservados. Hecho con 🧡 para la ESAN.</p>
-      <p class="font-nunito text-white/50 text-xs">"Despiértate y sonríe" · "Hoy será un día genial"</p>
-    </div>
-  </div>
-</footer>
-
-<!-- Toast -->
-<div id="toast" role="status" aria-live="polite"></div>
-
-<script src="app2.js"></script>
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
 </body>
 </html>
